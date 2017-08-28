@@ -8,6 +8,9 @@ $(function() {
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
   });
+  $('#search').change(function() {
+     $('#bookmarks ul li:first-child span a').click();
+  });
 });
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
