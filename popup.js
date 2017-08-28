@@ -4,14 +4,16 @@
 
 // Search the bookmarks when entering the search keyword.
 $(function() {
-  $('#search').change(function() {
+  $('#search').on('input', function() {
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
   });
 });
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
-  var bookmarkTreeNodes = chrome.bookmarks.getTree(
+  var id = '498';
+  var bookmarkTreeNodes = chrome.bookmarks.getSubTree(
+    id,
     function(bookmarkTreeNodes) {
       $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
     });
@@ -27,7 +29,7 @@ function dumpTreeNodes(bookmarkNodes, query) {
 function dumpNode(bookmarkNode, query) {
   if (bookmarkNode.title) {
     if (query && !bookmarkNode.children) {
-      if (String(bookmarkNode.title).indexOf(query) == -1) {
+      if (String(bookmarkNode.title.toLowerCase()).indexOf(query.toLowerCase()) == -1) {
         return $('<span></span>');
       }
     }
@@ -125,4 +127,5 @@ function dumpNode(bookmarkNode, query) {
 
 document.addEventListener('DOMContentLoaded', function () {
   dumpBookmarks();
+  $('#search').focus();
 });
