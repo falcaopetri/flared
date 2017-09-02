@@ -14,12 +14,17 @@ $(function() {
 });
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
-  var id = '498';
-  var bookmarkTreeNodes = chrome.bookmarks.getSubTree(
-    id,
-    function(bookmarkTreeNodes) {
-      $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
-    });
+  chrome.storage.sync.get({
+    folder_id: 0
+  }, function(items) {
+    var id = items.folder_id;
+    
+    var bookmarkTreeNodes = chrome.bookmarks.getSubTree(
+      id,
+      function(bookmarkTreeNodes) {
+        $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
+      });
+  });
 }
 function dumpTreeNodes(bookmarkNodes, query) {
   var list = $('<ul>');
