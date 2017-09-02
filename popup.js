@@ -8,8 +8,12 @@ $(function() {
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
   });
-  $('#search').change(function() {
-     $('#bookmarks ul li:first-child span a').click();
+  $('#search').bind("enterKey",function(e){
+     $('#bookmarks ul li:first-child span a[href]').click();
+  });
+  $('#search').keyup(function(e) {
+    if (e.keyCode == 13)
+        $(this).trigger("enterKey");
   });
 });
 // Traverse the bookmark tree, and print the folder and nodes.
